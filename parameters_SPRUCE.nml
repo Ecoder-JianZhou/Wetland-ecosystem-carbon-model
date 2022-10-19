@@ -1,0 +1,152 @@
+ &run_nml
+   simuType   = 1       !------ 1: normal simulation; 2: spin-up; 3: MCMC
+   startYear  = 2011
+   endYear    = 2014
+   Ttreat     = 0.0     ! ----- maybe no use
+   CO2treat   = 380.0   ! ----- maybe no use
+ /
+ 
+ &siteParas_nml
+   lat         = 47.50        
+   longi       = -93.45
+   wsmax       = 56.5
+   wsmin       = 0.2   
+   LAIMAX      = 5.3
+   LAIMIN      = 0.3
+   rdepth      = 150
+   Rootmax     = 500
+   Stemmax     = 1000
+   SapR        = 1.
+   SapS        = 0.2
+   SLA         = 62.3
+   GLmax       = 10.56
+   GRmax       = 21.71
+   Gsmax       = 27.03
+   stomN       = 2               !----- stom_n
+   a1          = 8
+   Ds0         = 2000
+   Vcmax0      = 41.38
+   extkU       = 0.51
+   xfang       = 0
+   alpha       = 0.385
+   tauL        = 1.15            !----- Tau_Leaf
+   tauW        = 214.1           !----- Tau_Wood
+   tauR        = 1.0394          !----- Tau_Root
+   tauFL       = 0.2784          !----- Tau_F
+   tauCL       = 8.4561          !----- Tau_C
+   tauFS       = 0.3118          !----- Tau_Micro
+   tauSS       = 942.7995        !----- Tau_slowSOM
+   tauPS       = 3983.99         !----- Tau_Passive
+   gddonset    = 157.85
+   Q10         = 2.74
+   Rl0         = 13.03
+   Rs0         = 6.32
+   Rr0         = 34.88
+   !------------ methane ------------!
+   rMe         = 0.15            !----- r_me
+   Q10pro      = 1.0091
+   kCH4        = 5.0
+   Omax        = 10
+   ThreCH4     = 1500.           !----- CH4_thre
+   Tveg        = 0.1
+   TproMe     = 10.0             !----- Tpro_me
+   Toxi        = 10.0
+ /
+
+ &constParas_nml
+   trnsmtL = 0.1, 0.425, 0.00     ! tauL:leaf transmittance for vis; for NIR; for thermal;
+   rhoL = 0.1, 0.425, 0.00        ! leaf reflectance for vis;   for NIR; for thermal;
+   rhoS = 0.1, 0.3,   0.00        ! soil reflectance for vis; for NIR - later function of soil water content; for thermal
+   !-------------------------------------------------------------------------
+   emleaf = 0.96
+   emsoil = 0.94
+   Rconst = 8.314                 ! universal gas constant (J/mol)
+   sigma  = 5.67e-8               ! Steffan Boltzman constant (W/m2/K4)
+   cpair  = 1010.                 ! heat capapcity of air (J/kg/K)
+   Patm   = 101325. !1.e5         ! atmospheric pressure  (Pa)
+   Trefk  = 293.2                 ! reference temp K for Kc, Ko, Rd
+   H2OLv0 = 2.501e6               ! latent heat H2O (J/kg)
+   AirMa  = 29.e-3                ! mol mass air (kg/mol)
+   H2OMw  = 18.e-3                ! mol mass H2O (kg/mol)
+   chi    = 0.93                  ! gbH/gbw
+   Dheat  = 21.5e-6               ! molecular diffusivity for heat
+   !------ plant parameters
+   gsw0   = 1.0e-2                ! g0 for H2O in BWB model
+   theta  = 0.9
+   wleaf  = 0.01                  !leaf width (m)
+   !------ thermodynamic parameters for Kc and Ko (Leuning 1990)
+   conKc0 = 302.e-6               !mol mol^-1
+   conKo0 = 256.e-3               !mol mol^-1
+   Ekc    = 59430.                !J mol^-1
+   Eko    = 36000.                !J mol^-1
+   !  Erd = 53000.                !J mol^-1
+   o2ci   = 210.e-3               !mol mol^-1
+   !------ thermodynamic parameters for Vcmax & Jmax (Eq 9, Harley et al, 1992; #1392)
+   Eavm   = 116300.               !J/mol  (activation energy)
+   Edvm   = 202900.               !J/mol  (deactivation energy)
+   Eajm   = 79500.                !J/mol  (activation energy) 
+   Edjm   = 201000.               !J/mol  (deactivation energy)
+   Entrpy = 650.                  !J/mol/K (entropy term, for Jmax & Vcmax)
+   !------ parameters for temperature dependence of gamma* (revised from von Caemmerer et al 1993)
+   gam0   = 28.0e-6               !mol mol^-1 @ 20C = 36.9 @ 25C
+   gam1   = .0509
+   gam2   = .0010
+   !------ soil snow process 
+    shcap_snow     = 1000000.  ! tuneice worker better; refer to csm 4.0 physical constant ! 2090 J/kg/°K with density of 330 kg/m3
+    condu_snow     = 0.1
+    condu_b        = 0.08      ! yuanyuan soil thermal version value  ... int: this par is not sensitive to CWE
+    depth_ex       = 0.05
+    diff_s         = 1.
+    diff_snow      = 1.8       ! .. int diffusivity of snow not sensitive for ice
+    albedo_snow    = 0.7
+    resht          = 40.
+    thd_snow_depth = 4.0
+    b_bound        = 100.       ! tuneice  not sensitive for ice   
+    infilt_rate    = 0.001
+    fa             = 1
+    fsub           = 0.1
+    rho_snow       = 80.        !tuneice
+    decay_m        = 2.2192     !aging factor on snow melting
+ /
+
+ &initStates_nml
+  initSto = 32.09           !g C/m2
+  initNSC = 85.35
+  initQC  = 450.,380.,250.,119.,300.,322.,38340.,23120.
+  !----------------------------------------------------
+  fwsoil = 1.0
+  topfws = 1.0
+  omega  = 1.0
+  !----------------------------------------------------
+  CN0   = 50.,350.,60.,40.,300.,10.,20.,12.                        ! Default C/N ratios of Duke FACE
+  thksl = 10.,10.,10.,10.,10.,20.,20.,20.,20.,20.                  ! thickness of every soil layer, zhou: unit cm?
+  FRLEN = 0.75,0.2,0.02,0.015,0.005,0.0,0.0,0.0,0.0,0.0            ! ratio of roots in every layer, Shuang
+  CH4_V = 0.,0.,0.,0.,0.,0.,0.,0.,0.,0.                            ! update: Shuang methane bog species even more shallowly rooted than the tundra
+  CH4   = 0.0952,0.1232,0.2128,0.3024,0.352,0.8,0.8,0.86,0.86,0.86 ! add initials for methane module Shuang version
+  !------ add initials for soil thermal dynamics in Yuanyuanversion
+  sftmp       = -0.
+  Tsnow       = -20.
+  Twater      = 0.0
+  Tice        = 0.0  
+  G           = 20.5
+  snow_dsim   = 0.575
+  dcount      = 50.
+  dcount_soil = 50.
+  ice_tw      = 0.0
+  Tsoill      = -0.09, 0.73, 1.3, 1.95, 2.3, 3., 4., 4.5, 5., 5.98                  ! JJ MS thksl 10 20 30 40 50 70 90 110 130 150...
+  ice         = 0.1, 0.0, 0., 0., 0.0, 0.0, 0.0, 0.0,0.0, 0.0 
+  liq_water   = 0.01, 0.056, 0.056, 0.056, 0.056, 0.056, 0.056,0.056,0.056,0.056    ! unit m
+  zwt         = 0.0
+  !-----------------------------------------------------------------------
+  N_deposit    = 2.67e-4 !2.34/8760. ! Nitrogen input (gN/h/m2, 1.2+0.067 gN/yr/m2,Oak ridge)0.7 gN/yr/m2, 13.4 kg N ha-1 yr-1, 2000, Dentener et al. 2006, GBC, Duke FACE
+  N_fert       = 0.         ! 5.6 ! (11.2 gN m-2 yr-1, in spring, Duke Forest FACE)
+  infilt       = 0.         ! define soil for export variables for satisfying usage of canopy submodel first time
+  accumulation = 0.0
+  SNvcmax      = 1.0
+  !----------------------------------------------------------------------
+  ! initial values of Nitrogen pools and C/N ratio
+  alphaN    = 0.0    ! the transfer of N before littering
+  NSN       = 6.0
+  QNminer   = 1.2
+  N_deficit = 0
+ /
